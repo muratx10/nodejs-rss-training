@@ -37,4 +37,10 @@ const deleteById = (id) => {
   return deletedUser;
 }
 
-module.exports = { getAll, create, getById, updateById, deleteById };
+module.exports = {
+  create,
+  deleteById,
+  getAll,
+  getById,
+  updateById,
+};

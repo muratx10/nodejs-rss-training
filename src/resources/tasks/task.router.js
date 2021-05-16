@@ -3,7 +3,6 @@ const taskService = require('./task.service');
 
 router.route('/').post(async (req, res) => {
   const { params: { boardId } } = req;
-
   const task = await taskService.create({...req.body, boardId});
 
   res.type('application/json');
@@ -20,7 +19,6 @@ router.route('/').get(async (req, res) => {
 router.route('/:id').put(async (req, res) => {
   const { params: { id, boardId } } = req;
   const { body: { columnId, description, order, title, userId } } = req;
-
   const updatedTask = await taskService.updateById({
     boardId,
     columnId,

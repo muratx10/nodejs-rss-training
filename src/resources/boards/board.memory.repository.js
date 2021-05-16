@@ -37,4 +37,10 @@ const deleteById = async (id) => {
   return deletedBoard;
 }
 
-module.exports = {getAll, getById, create, updateById, deleteById};
+module.exports = {
+  create,
+  deleteById,
+  getAll,
+  getById,
+  updateById,
+};

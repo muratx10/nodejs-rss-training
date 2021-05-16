@@ -48,4 +48,12 @@ const removeUsersTasks = async (id) => {
   return 'Deleted';
 };
 
-module.exports = { create, getAll, updateById, getById, deleteById, deleteByBoardId, removeUsersTasks };
+module.exports = {
+  create,
+  deleteByBoardId,
+  deleteById,
+  getAll,
+  getById,
+  removeUsersTasks,
+  updateById,
+};
