@@ -11,7 +11,6 @@ router.route('/').get(async (req, res) => {
 router.route('/').post(async (req, res) => {
   const user = await usersService.create(req.body);
 
-  res.type('application/json')
   res.statusCode = 201;
   res.json(User.toResponse(user));
 });
@@ -25,9 +24,9 @@ router.route('/:id').get(async (req, res) => {
     return res.end();
   }
 
-  res.type('application/json');
   res.statusCode = 200;
   res.json(User.toResponse(user));
+
   return res.end();
 });
 
