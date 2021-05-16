@@ -20,8 +20,8 @@ const create = async (data) => {
 const updateById = async (id, data) => {
   let updatedBoard;
 
-  boards.forEach((board, idx) => {
-    if (board.id  === id) return;
+  await boards.forEach((board, idx) => {
+    if (board.id !== id) return;
 
     boards[idx] = {id, ...boards[idx], ...data};
     updatedBoard = boards[idx];
