@@ -36,14 +36,16 @@ const deleteById = async (id) => {
 
 const deleteByBoardId = async (boardId) => {
   const tasksForSelectedBoard = tasks.filter(({boardId: id}) => id === boardId);
-  await Promise.allSettled(tasksForSelectedBoard.map(({id}) => deleteById(id)));
+  await Promise.allSettled(tasksForSelectedBoard
+    .map(({id}) => deleteById(id)));
 
   return 'Deleted';
 };
 
 const removeUsersTasks = async (id) => {
   const usersTasks = tasks.filter(({ userId }) => userId === id);
-  await Promise.allSettled(usersTasks.map(({ id: taskId }) => updateById({ id: taskId, userId: null })));
+  await Promise.allSettled(usersTasks
+    .map(({ id: taskId }) => updateById({ id: taskId, userId: null })));
 
   return 'Deleted';
 };
