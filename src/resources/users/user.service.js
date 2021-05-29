@@ -1,4 +1,4 @@
-const usersRepo = require('./user.memory.repository');
+const usersRepo = require('src/resources/users/user.memory.repository');
 const tasksRepo = require('../tasks/task.memory.repository');
 /**
  * @module UsersService

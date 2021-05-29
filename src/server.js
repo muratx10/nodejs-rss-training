@@ -1,5 +1,5 @@
-const { PORT } = require('./common/config');
-const app = require('./app');
+const { PORT } = require('src/common/config');
+const app = require('src/app');
 
 app.listen(PORT, () =>
   // eslint-disable-next-line no-console
