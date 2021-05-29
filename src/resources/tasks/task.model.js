@@ -16,13 +16,13 @@ class Task {
    * @param {ITask} - Task information
    */
   constructor({
-    boardId = null,
-    columnId = null,
+    boardId = '',
+    columnId = '',
     description = 'test description',
     id= uuid(),
     order = 0,
     title = 'Task1',
-    userId = null,
+    userId = '',
   } = {}) {
     /**
      * @property {string} boardId - ID of board
