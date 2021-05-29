@@ -1,48 +1,25 @@
-const User = require('./user.model');
+import { IUser } from '../../types/interfaces';
 
-/**
- * @module UsersRepo
- */
+const User = require('./user.model');
 
 let users = [
   new User({name: 'User1'}),
   new User({name: 'User2'}),
 ];
 
-/**
- * @memberOf module:UsersRepo
- * @returns {Promise<IUser[]>}
- */
-const getAll = async () => users;
+const getAll = async (): Promise<IUser[]> => users;
 
-/**
- * @memberOf module:UsersRepo
- * @param {string} id - ID of user
- * @returns {Promise<IUserWithoutPassword>}
- */
-const getById = async (id) => users
+const getById = async (id: string) => users
   .find(({ id: userId }) => userId === id);
 
-
-/**
- * @memberOf module:UsersRepo
- * @param {IUser} data - New user's data
- * @returns {Promise<IUserWithoutPassword>}
- */
-const create = async (data) => {
-  const user = new User({...data})
-  await users.push(user)
+const create = async (data: IUser): Promise<IUser> => {
+  const user = new User({...data});
+  await users.push(user);
 
   return user;
 };
 
-/**
- * @memberOf module:UsersRepo
- * @param {string} id - ID of the user that needs to be updated
- * @param {Partial<IUser>} data - Optional user properties to update
- * @returns {Promise<IUserWithoutPassword>} updated user
- */
-const updateById = async (id, data) => {
+const updateById = async (id: string, data: IUser): Promise<IUser|undefined> => {
   let updatedUser;
 
   users.forEach((user, idx) => {
@@ -55,17 +32,12 @@ const updateById = async (id, data) => {
   return updatedUser;
 };
 
-/**
- * @memberOf module:UsersRepo
- * @param {string} id - ID of user to delete
- * @returns {Promise<IUserWithoutPassword>} deleted user
- */
-const deleteById = async (id) => {
+const deleteById = async (id: string): Promise<IUser> => {
   const deletedUser = getById(id);
   users = users.filter(({id: userId}) => userId !== id);
 
   return deletedUser;
-}
+};
 
 module.exports = {
   create,

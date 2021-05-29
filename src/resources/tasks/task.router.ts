@@ -1,17 +1,10 @@
-/**
- * @module TasksRouter
- */
+import {Request, Response} from 'express';
+import { IRequestParams } from '../../types/interfaces';
+
 const router = require('express').Router({ mergeParams: true });
 const taskService = require('./task.service');
 
-/**
- * @name CREATE_TASK
- * @memberOf module:TasksRouter
- * @function
- * @route {POST} /boards/:boardId/tasks/
- * @returns {ITask} created task
- */
-router.route('/').post(async (req, res) => {
+router.route('/').post(async (req: Request<IRequestParams>, res: Response) => {
   const { params: { boardId } } = req;
   const task = await taskService.create({...req.body, boardId});
 
@@ -20,27 +13,13 @@ router.route('/').post(async (req, res) => {
   res.json(task);
 });
 
-/**
- * @name GET_ALL_TASKS
- * @memberOf module:TasksRouter
- * @function
- * @route {GET} /boards/:boardId/tasks/
- * @returns {ITask[]|Array} Array of tasks or empty array
- */
-router.route('/').get(async (req, res) => {
+router.route('/').get(async (_req: Request<IRequestParams>, res: Response) => {
   const tasks = await taskService.getAll();
 
   res.json(tasks);
 });
 
-/**
- * @name UPDATE_TASK_BY_ID
- * @memberOf module:TasksRouter
- * @function
- * @route {PUT} /boards/:boardId/tasks/:id
- * @returns {ITask|string} updated task object or string if not found
- */
-router.route('/:id').put(async (req, res) => {
+router.route('/:id').put(async (req: Request<IRequestParams>, res: Response) => {
   const { params: { id, boardId } } = req;
   const { body: { columnId, description, order, title, userId } } = req;
   const updatedTask = await taskService.updateById({
@@ -62,14 +41,7 @@ router.route('/:id').put(async (req, res) => {
   res.json(updatedTask);
 });
 
-/**
- * @name GET_TASK_BY_ID
- * @memberOf module:TasksRouter
- * @function
- * @route {GET} /boards/:boardId/tasks/:id
- * @returns {ITask|string} Task object or string if not found
- */
-router.route('/:id').get(async (req, res) => {
+router.route('/:id').get(async (req: Request<IRequestParams>, res: Response) => {
   const { params: { id } } = req;
   const task = await taskService.getById(id);
 
@@ -82,14 +54,7 @@ router.route('/:id').get(async (req, res) => {
   res.json(task);
 });
 
-/**
- * @name DELETE_TASK_BY_ID
- * @memberOf module:TasksRouter
- * @function
- * @route {DELETE} /boards/:boardId/tasks/:id
- * @returns {ITask|string} deleted task or string if not found
- */
-router.route('/:id').delete(async (req, res) => {
+router.route('/:id').delete(async (req: Request<IRequestParams>, res: Response) => {
   const { params: { id } } = req;
   const deletedTask = await taskService.deleteById(id);
 

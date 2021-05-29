@@ -1,37 +1,21 @@
-const Task = require('./task.model');
+import { ITask } from '../../types/interfaces';
 
-/**
- * @module TasksRepo
- */
+const Task = require('src/resources/tasks/task.model');
 
 let tasks = [
   new Task(),
 ];
 
-/**
- * @memberOf module:TasksRepo
- * @param {ITask} data - New task's data
- * @returns {Promise<ITask>}
- */
-const create = async (data) => {
+const create = async (data: ITask): Promise<ITask> => {
   const task = new Task({...data});
   await tasks.push(task);
 
   return task;
-}
+};
 
-/**
- * @memberOf module:TasksRepo
- * @return {Promise<ITask[]>}
- */
-const getAll = async () => tasks;
+const getAll = async (): Promise<ITask[]> => tasks;
 
-/**
- * @memberOf module:TasksRepo
- * @param {Partial<ITask>} data - Optional properties to update task
- * @returns {Promise<ITask>} updated task
- */
-const updateById = async (data) => {
+const updateById = async (data: ITask): Promise<ITask> => {
   const { title, order, description, userId, boardId, columnId } = data;
   const taskIdx = tasks
     .findIndex(({id: taskId}) => taskId === data.id);
@@ -44,32 +28,17 @@ const updateById = async (data) => {
   return updatedTask;
 };
 
-/**
- * @memberOf module:TasksRepo
- * @param {string} id - ID of task
- * @return {Promise<ITask>}
- */
-const getById = async (id) => tasks
+const getById = async (id: string): Promise<ITask> => tasks
   .find(({ id: taskId }) => taskId === id);
 
-/**
- * @memberOf module:TasksRepo
- * @param {string} id - ID of task
- * @return {Promise<ITask>} deleted task
- */
-const deleteById = async (id) => {
+const deleteById = async (id: string): Promise<ITask> => {
   const deletedTask = getById(id);
   tasks = tasks.filter(({ id: taskId }) => taskId !== id);
 
   return deletedTask;
 };
 
-/**
- * @memberOf module:TasksRepo
- * @param {string} boardId - ID of board
- * @return {Promise<string>}
- */
-const deleteByBoardId = async (boardId) => {
+const deleteByBoardId = async (boardId: string): Promise<string> => {
   const tasksForSelectedBoard = tasks
     .filter(({boardId: id}) => id === boardId);
 
@@ -79,17 +48,12 @@ const deleteByBoardId = async (boardId) => {
   return 'Deleted';
 };
 
-/**
- * @memberOf module:TasksRepo
- * @param {string} id
- * @return {Promise<string>}
- */
-const removeUsersTasks = async (id) => {
+const removeUsersTasks = async (id: string): Promise<string> => {
   const usersTasks = tasks.filter(({ userId }) => userId === id);
   await Promise.allSettled(usersTasks
     .map(({ id: taskId }) => updateById({
       id: taskId,
-      userId: null,
+      userId: '',
     })));
 
   return 'Deleted';
