@@ -1,40 +1,42 @@
+import { notFoundError } from '../../constants';
+import { tasks } from '../tasks/task.memory.repository';
 import Board, { IBoard } from './board.model';
 
-let boards = [
+export const boards = [
   new Board({title: 'Board1'}),
   new Board({title: 'Board2'}),
 ];
 
 export const getAll = async () => boards;
 
-export const getById = async (id: string) => boards
-  .find(({ id: boardId }) => boardId === id);
+export const getById = async (id: string) => {
+  if (!boards[id]) throw new Error(notFoundError);
 
-export const create = async (data: IBoard) => {
-  const board = new Board({...data});
-  await boards.push(board);
+  return boards[id];
+};
 
-  return board;
+export const create = async (board: IBoard) => {
+  boards[board.id] = board;
+  tasks[board.id] = {};
+
+  return boards[board.id];
 };
 
 export const updateById = async (id: string, data: IBoard) => {
-  let updatedBoard;
+  if (!boards[id]) throw new Error(notFoundError);
 
-  boards.forEach((board, idx) => {
-    if (board.id !== id) {
-      return;
-    }
+  boards[id] = { ...boards[id], ...data };
 
-    boards[idx] = { ...boards[idx], ...data };
-    updatedBoard = boards[idx];
-  });
-
-  return updatedBoard;
+  return boards[id];
 };
 
 export const deleteById = async (id: string) => {
-  const deletedBoard = getById(id);
-  boards = boards.filter(({ id: boardId }) => boardId !== id);
+  if (!boards[id]) throw new Error(notFoundError);
+
+  const deletedBoard = boards[id];
+
+  delete boards[id];
+  delete tasks[id];
 
   return deletedBoard;
 };

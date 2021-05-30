@@ -1,29 +1,30 @@
 import User from './user.model';
-let users = [
+import { notFoundError } from '../../constants';
+const users = [
     new User({ name: 'User1' }),
     new User({ name: 'User2' }),
 ];
 export const getAll = async () => users;
-export const getById = async (id) => users
-    .find(({ id: userId }) => userId === id);
-export const create = async (data) => {
-    const user = new User({ ...data });
-    await users.push(user);
-    return user;
+export const getById = async (id) => {
+    if (!users[id])
+        throw new Error(notFoundError);
+    return users[id];
+};
+export const create = async (user) => {
+    users[user.id] = user;
+    return users[user.id];
 };
 export const updateById = async (id, data) => {
-    let updatedUser;
-    users.forEach((user, idx) => {
-        if (user.id !== id)
-            return;
-        users[idx] = { ...users[idx], ...data };
-        updatedUser = users[idx];
-    });
-    return updatedUser;
+    if (!users[id])
+        throw new Error(notFoundError);
+    users[id] = { ...users[id], ...data };
+    return users[id];
 };
 export const deleteById = async (id) => {
-    const deletedUser = getById(id);
-    users = users.filter(({ id: userId }) => userId !== id);
+    if (!users[id])
+        throw new Error(notFoundError);
+    const deletedUser = users[id];
+    delete users[id];
     return deletedUser;
 };
 //# sourceMappingURL=user.memory.repository.js.map

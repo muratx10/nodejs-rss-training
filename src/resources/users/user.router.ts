@@ -23,10 +23,8 @@ router.route('/').post(async (req: Request, res: Response) => {
     const user = await create(req.body);
 
     res.status(201).json(User.toResponse(user));
-    // res.statusCode = 201;
-    // res.json(User.toResponse(user));
   } catch (e) {
-    res.status(404).send({message: 'Not found'});
+    res.status(404).send({message: e});
   }
 });
 
@@ -37,10 +35,9 @@ router.route('/:id').get(async (req: Request<ReqParams>, res: Response) => {
 
     if (!user) return;
 
-    res.statusCode = 200;
-    res.json(User.toResponse(user));
+    res.status(200).json(User.toResponse(user));
   } catch (e) {
-    res.status(404).send({message: 'Not found'});
+    res.status(404).send({message: e});
   }
 });
 
@@ -52,8 +49,6 @@ router.route('/:id').put(async (req: Request<ReqParams>, res: Response) => {
     if (!updatedUser) return;
 
     res.status(200).json(User.toResponse(updatedUser));
-    // res.statusCode = 200;
-    // res.json(User.toResponse(updatedUser));
   } catch (e) {
     res.status(404).send({message: e});
   }
@@ -67,10 +62,8 @@ router.route('/:id').delete(async (req: Request<ReqParams>, res: Response) => {
     if (!deletedUser) return;
 
     res.status(204).json(User.toResponse(deletedUser));
-    // res.statusCode = 204;
-    // res.json(User.toResponse(deletedUser));
   } catch (e) {
-    res.status(404).send({message: 'Not found'});
+    res.status(404).send({message: e});
   }
 });
 

@@ -5,42 +5,34 @@ export interface ITask {
   title: string,
   order: number,
   description: string,
-  userId: string,
+  userId?: string | null,
   boardId: string,
-  columnId: string,
+  columnId?: string,
 }
 
 class Task implements ITask{
-  public boardId: string
-
-  public columnId: string
-
-  public description: string
-
   public id: string
-
-  public order: number
 
   public title: string
 
-  public userId: string
+  public order: number
 
-  constructor({
-    boardId = '',
-    columnId = '',
-    description = 'test description',
-    id= uuid(),
-    order = 0,
-    title = 'Task1',
-    userId = '',
-  } = {}) {
-    this.boardId = boardId;
-    this.columnId = columnId;
-    this.description = description;
-    this.id = id;
-    this.order = order;
-    this.title = title;
-    this.userId = userId;
+  public description: string
+
+  public userId?: string | null
+
+  public boardId: string
+
+  public columnId?: string
+
+  constructor(task: ITask) {
+    this.boardId = task.boardId || '';
+    this.columnId = task.columnId;
+    this.description = task.description || '';
+    this.id = task.id || uuid();
+    this.order = task.order || 0;
+    this.title = task.title || '';
+    this.userId = task.userId;
   }
 }
 

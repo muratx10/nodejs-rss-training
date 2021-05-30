@@ -1,5 +1,10 @@
 import {v4 as uuid} from 'uuid';
-import { IColumn } from '../columns/column.model';
+
+export interface IColumn {
+  id: string,
+  title: string,
+  order: number,
+}
 
 export interface IBoard {
   id: string,

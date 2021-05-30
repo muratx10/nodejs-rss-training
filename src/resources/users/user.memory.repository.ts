@@ -1,38 +1,39 @@
 import User, { IUser } from './user.model';
+import { notFoundError } from '../../constants';
 
-let users = [
+const users = [
   new User({name: 'User1'}),
   new User({name: 'User2'}),
 ];
 
 export const getAll = async (): Promise<IUser[]> => users;
 
-export const getById = async (id: string): Promise<IUser|undefined> => users
-  .find(({ id: userId }) => userId === id);
+export const getById = async (id: string): Promise<IUser|undefined> => {
+  if (!users[id]) throw new Error(notFoundError);
 
-export const create = async (data: IUser): Promise<IUser> => {
-  const user = new User({...data});
-  await users.push(user);
-
-  return user;
+  return users[id];
 };
 
-export const updateById = async (id: string, data: IUser): Promise<IUser|undefined> => {
-  let updatedUser;
+export const create = async (user: IUser): Promise<IUser> => {
+  users[user.id] = user;
 
-  users.forEach((user, idx) => {
-    if (user.id !== id) return;
-
-    users[idx] = { ...users[idx],...data };
-    updatedUser = users[idx];
-  });
-
-  return updatedUser;
+  return users[user.id];
 };
 
-export const deleteById = async (id: string): Promise<User | undefined> => {
-  const deletedUser = getById(id);
-  users = users.filter(({id: userId}) => userId !== id);
+export const updateById = async (id: string, data: IUser): Promise<IUser> => {
+  if (!users[id]) throw new Error(notFoundError);
+
+  users[id] = { ...users[id], ...data };
+
+  return users[id];
+};
+
+export const deleteById = async (id: string): Promise<User> => {
+  if (!users[id]) throw new Error(notFoundError);
+
+  const deletedUser = users[id];
+
+  delete users[id];
 
   return deletedUser;
 };
