@@ -1,25 +1,22 @@
-import { IBoard } from '../../types/interfaces';
+import { IBoard } from "./board.model";
+import { deleteByBoardId } from "../tasks/task.memory.repository";
+import {
+  create as createBoard ,
+  deleteById as deleteBoardById,
+  getAll as getAllBoards,
+  getById as getBoardById,
+  updateById as updateBoardById
+}  from './board.memory.repository';
 
-const boardsRepo = require('src/resources/boards/board.memory.repository');
-const tasksRepo = require('../tasks/task.memory.repository');
+export const create = async (data: IBoard) => createBoard(data);
 
-const create = (data: IBoard) => boardsRepo.create(data);
-
-const deleteById = (id: string) => {
-  tasksRepo.deleteByBoardId(id);
-  return boardsRepo.deleteById(id);
+export const deleteById = async (id: string) => {
+  await deleteByBoardId(id);
+  return deleteBoardById(id);
 };
 
-const getAll = () => boardsRepo.getAll();
+export const getAll = async () => getAllBoards();
 
-const getById = (id: string) => boardsRepo.getById(id);
+export const getById = async (id: string) => getBoardById(id);
 
-const updateById = (id: string, data: IBoard) => boardsRepo.updateById(id, data);
-
-module.exports = {
-  create,
-  deleteById,
-  getAll,
-  getById,
-  updateById,
-};
+export const updateById = async (id: string, data: IBoard) => updateBoardById(id, data);

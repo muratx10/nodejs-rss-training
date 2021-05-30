@@ -1,15 +1,18 @@
 import {v4 as uuid} from 'uuid';
+import { IColumn } from '../columns/column.model';
 
-class Board {
+export interface IBoard {
+  id: string,
+  title: string,
+  columns: IColumn[]
+}
+
+class Board implements IBoard{
   public id: string
 
   public title: string
 
-  public columns: {
-    id: string,
-    title: string,
-    order: number,
-  }[]
+  public columns: IColumn[]
 
   constructor({
     id = uuid(),
@@ -26,4 +29,4 @@ class Board {
   }
 }
 
-module.exports = Board;
+export default Board;

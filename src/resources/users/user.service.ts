@@ -1,25 +1,22 @@
-import { IUser } from '../../types/interfaces';
+import { IUser } from "./user.model";
+import {
+  create as createUser,
+  deleteById as deleteUserById,
+  getAll as getAllUsers,
+  getById as getUserById,
+  updateById as updateUserById
+} from './user.memory.repository';
+import { removeUsersTasks } from '../tasks/task.memory.repository';
 
-const usersRepo = require('src/resources/users/user.memory.repository');
-const tasksRepo = require('../tasks/task.memory.repository');
+export const create = (data: IUser) => createUser(data);
 
-const create = (data: IUser) => usersRepo.create(data);
-
-const deleteById = (id: string) => {
-  tasksRepo.removeUsersTasks(id);
-  return usersRepo.deleteById(id);
+export const deleteById = (id: string) => {
+  removeUsersTasks(id);
+  return deleteUserById(id);
 };
 
-const getAll = () => usersRepo.getAll();
+export const getAll = () => getAllUsers();
 
-const getById = (id: string) => usersRepo.getById(id);
+export const getById = (id: string): Promise<IUser|undefined> => getUserById(id);
 
-const updateById = (id: string, data: IUser) => usersRepo.updateById(id, data);
-
-module.exports = {
-  create,
-  deleteById,
-  getAll,
-  getById,
-  updateById,
-};
+export const updateById = (id: string, data: IUser) => updateUserById(id, data);

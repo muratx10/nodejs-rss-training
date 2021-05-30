@@ -1,70 +1,93 @@
-import {Request, Response} from 'express';
-import { IRequestParams } from '../../types/interfaces';
+import express, {Request, Response} from 'express';
+import { create, deleteById, getAll, getById, updateById } from './task.service';
 
-const router = require('express').Router({ mergeParams: true });
-const taskService = require('./task.service');
+const router = express.Router({ mergeParams: true });
 
-router.route('/').post(async (req: Request<IRequestParams>, res: Response) => {
-  const { params: { boardId } } = req;
-  const task = await taskService.create({...req.body, boardId});
+type ReqParams = {
+  id: string,
+}
 
-  res.type('application/json');
-  res.statusCode = 201;
-  res.json(task);
-});
+type BoardParams = {
+  boardId: string,
+  taskId?: string
+}
 
-router.route('/').get(async (_req: Request<IRequestParams>, res: Response) => {
-  const tasks = await taskService.getAll();
+router.route('/').post(async (req: Request<BoardParams>, res: Response) => {
+  try {
+    const { params: { boardId } } = req;
+    const task = await create({...req.body, boardId});
 
-  res.json(tasks);
-});
+    res.status(201).json(task);
 
-router.route('/:id').put(async (req: Request<IRequestParams>, res: Response) => {
-  const { params: { id, boardId } } = req;
-  const { body: { columnId, description, order, title, userId } } = req;
-  const updatedTask = await taskService.updateById({
-    boardId,
-    columnId,
-    description,
-    id,
-    order,
-    title,
-    userId,
-  });
-
-  if (!updatedTask) {
-    res.status(404).send('Not found');
-    return;
+    // res.type('application/json');
+    // res.statusCode = 201;
+    // res.json(task);
+  } catch (e) {
+    res.status(400).send({message: e});
   }
-
-  res.statusCode = 200;
-  res.json(updatedTask);
 });
 
-router.route('/:id').get(async (req: Request<IRequestParams>, res: Response) => {
-  const { params: { id } } = req;
-  const task = await taskService.getById(id);
+router.route('/').get(async (_req: Request, res: Response) => {
+  try {
+    const tasks = await getAll();
 
-  if (!task) {
-    res.status(404).send('Not found');
-    return;
+    res.json(tasks);
+  } catch (e) {
+    res.status(400).send({message: e});
   }
-
-  res.statusCode = 200;
-  res.json(task);
 });
 
-router.route('/:id').delete(async (req: Request<IRequestParams>, res: Response) => {
-  const { params: { id } } = req;
-  const deletedTask = await taskService.deleteById(id);
+router.route('/:taskId').put(async (req: Request<BoardParams>, res: Response) => {
+  // const { params: { id, boardId } } = req;
+  // const { body: { columnId, description, order, title, userId } } = req;
+  // const updatedTask = await taskService.updateById({
+  //   boardId,
+  //   columnId,
+  //   description,
+  //   id,
+  //   order,
+  //   title,
+  //   userId,
+  // });
+  try {
+    const { taskId, boardId } = req.params;
 
-  if (!deletedTask) {
-    res.status(404).send('Not found');
-    return;
+    if (!taskId || !boardId) return;
+
+    const updatedTask = await updateById(boardId, taskId, req.body);
+
+    if (!updatedTask) return;
+
+    res.status(200).json(updatedTask);
+  } catch (e) {
+    res.status(404).send({message: 'Not found'});
   }
-
-  res.statusCode = 204;
-  res.json(deletedTask);
 });
 
-module.exports = router;
+router.route('/:id').get(async (req: Request<ReqParams>, res: Response) => {
+    try {
+      const { params: { id } } = req;
+      const task = await getById(id);
+
+      if (!task) return;
+
+      res.status(200).json(task);
+    } catch (e) {
+      res.status(404).send({message: 'Not found'});
+    }
+});
+
+router.route('/:id').delete(async (req: Request<ReqParams>, res: Response) => {
+  try {
+    const { params: { id } } = req;
+    const deletedTask = await deleteById(id);
+
+    if (!deletedTask) return;
+
+    res.status(204).json(deletedTask);
+  } catch (e) {
+    res.status(404).send({message: 'Not found'});
+  }
+});
+
+export default router;

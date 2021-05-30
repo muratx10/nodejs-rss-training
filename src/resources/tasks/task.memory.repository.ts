@@ -1,44 +1,38 @@
-import { ITask } from '../../types/interfaces';
-
-const Task = require('src/resources/tasks/task.model');
+import Task, { ITask } from './task.model';
 
 let tasks = [
   new Task(),
 ];
 
-const create = async (data: ITask): Promise<ITask> => {
+export const create = async (data: ITask): Promise<ITask> => {
   const task = new Task({...data});
   await tasks.push(task);
 
   return task;
 };
 
-const getAll = async (): Promise<ITask[]> => tasks;
+export const getAll = async (): Promise<ITask[]> => tasks;
 
-const updateById = async (data: ITask): Promise<ITask> => {
-  const { title, order, description, userId, boardId, columnId } = data;
-  const taskIdx = tasks
-    .findIndex(({id: taskId}) => taskId === data.id);
-  const updatedTask = {
-    ...tasks[taskIdx], title, order, description, userId, boardId, columnId
-  };
+export const updateById = async (boardId: string, taskId: string, task: ITask): Promise<ITask> => {
+  if (!tasks[boardId]?.[taskId]) {
+    throw new Error('Task not found');
+  }
 
-  tasks.splice(taskIdx, 1, updatedTask);
-
-  return updatedTask;
+  tasks[boardId]![taskId] = { ...tasks[boardId]![taskId], ...task };
+  return tasks[boardId]![taskId];
 };
 
-const getById = async (id: string): Promise<ITask> => tasks
+export const getById = async (id: string): Promise<ITask | undefined> => tasks
   .find(({ id: taskId }) => taskId === id);
 
-const deleteById = async (id: string): Promise<ITask> => {
+export const deleteById = async (id: string): Promise<ITask | undefined> => {
   const deletedTask = getById(id);
   tasks = tasks.filter(({ id: taskId }) => taskId !== id);
 
   return deletedTask;
 };
 
-const deleteByBoardId = async (boardId: string): Promise<string> => {
+export const deleteByBoardId = async (boardId: string): Promise<string> => {
   const tasksForSelectedBoard = tasks
     .filter(({boardId: id}) => id === boardId);
 
@@ -48,23 +42,14 @@ const deleteByBoardId = async (boardId: string): Promise<string> => {
   return 'Deleted';
 };
 
-const removeUsersTasks = async (id: string): Promise<string> => {
-  const usersTasks = tasks.filter(({ userId }) => userId === id);
-  await Promise.allSettled(usersTasks
-    .map(({ id: taskId }) => updateById({
-      id: taskId,
-      userId: '',
-    })));
+export const removeUsersTasks = async (id: string): Promise<string> => {
+  const allTasks = Object.values(tasks).map(boardTasks => Object.values(boardTasks)).flat();
 
-  return 'Deleted';
-};
+  allTasks.forEach((task: ITask) => {
+    if (!(task.userId === id) || !tasks[task.boardId]) return;
 
-module.exports = {
-  create,
-  deleteByBoardId,
-  deleteById,
-  getAll,
-  getById,
-  removeUsersTasks,
-  updateById,
+    tasks[task.boardId]![task.id]!.userId = null;
+  });
+
+  return 'Unassigned all tasks';
 };

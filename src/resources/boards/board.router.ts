@@ -1,60 +1,71 @@
-import {Request, Response} from 'express';
-import { IRequestParams } from '../../types/interfaces';
+import express, {Request, Response} from 'express';
+import { create, deleteById, getAll, getById, updateById } from './board.service';
 
-const router = require('express').Router();
-const boardsService = require('./board.service');
+type ReqParams = {
+  id: string,
+};
+
+const router = express.Router();
 
 router.route('/').get(async (_req: Request, res: Response) => {
-  const boards = await boardsService.getAll();
+  try {
+    const boards = await getAll();
 
-  res.json(boards);
+    res.json(boards);
+  } catch (e) {
+    res.status(400).send({message: e});
+  }
 });
 
-router.route('/:id').get(async (req: Request<IRequestParams>, res: Response) => {
-  const { params: { id } } = req;
-  const board = await boardsService.getById(id);
+router.route('/:id').get(async (req: Request<ReqParams>, res: Response) => {
+  try {
+    const { params: { id } } = req;
+    const board = await getById(id);
 
-  if (!board) {
-    res.status(404).send('Board not found');
-    return;
+    res.status(200).json(board);
+    // res.statusCode = 200;
+    // res.json(board);
+  } catch (e) {
+    res.status(404).send({message: 'Not found'});
   }
-
-  res.statusCode = 200;
-  res.json(board);
 });
 
 router.route('/').post(async (req: Request, res: Response) => {
-  const board = await boardsService.create(req.body);
+  try {
+    const board = await create(req.body);
 
-  res.statusCode = 201;
-  res.json(board);
-});
-
-router.route('/:id').put(async (req: Request<IRequestParams>, res: Response) => {
-  const { body, params: { id } } = req;
-  const updatedBoard = await boardsService.updateById(id, body);
-
-  if (!updatedBoard) {
-    res.status(404).send('Board not found');
-    return;
+    res.status(201).json(board);
+    // res.statusCode = 201;
+    // res.json(board);
+  } catch (e) {
+    res.status(400).send({message: e});
   }
-
-  res.statusCode = 200;
-  res.json(updatedBoard);
 });
 
-router.route('/:id').delete(async (req: Request<IRequestParams>, res: Response) => {
-  const { params: { id } } = req;
-  const deletedBoard = await boardsService.deleteById(id);
+router.route('/:id').put(async (req: Request<ReqParams>, res: Response) => {
+  try {
+    const { body, params: { id } } = req;
+    const updatedBoard = await updateById(id, body);
 
-  if (!deletedBoard) {
-
-    res.status(404).send('Board not found');
-    return;
+    res.status(200).json(updatedBoard);
+    // res.statusCode = 200;
+    // res.json(updatedBoard);
+  } catch (e) {
+    res.status(404).send({message: 'Not found'});
   }
-
-  res.statusCode = 204;
-  res.json(deletedBoard);
 });
 
-module.exports = router;
+router.route('/:id').delete(async (req: Request<ReqParams>, res: Response) => {
+  try {
+    const { params: { id } } = req;
+    const deletedBoard = await deleteById(id);
+
+    res.status(204).json(deletedBoard);
+    // res.statusCode = 204;
+    // res.json(deletedBoard);
+  } catch (e) {
+    res.status(404).send({message: 'Not found'});
+  }
+});
+
+export default router;

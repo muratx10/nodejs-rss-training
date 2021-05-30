@@ -1,24 +1,21 @@
-import { ITask } from '../../types/interfaces';
+import { ITask } from "./task.model";
+import {
+  create as createTask,
+  deleteByBoardId as deleteTaskByBoardId,
+  deleteById as deleteTaskById,
+  getAll as getAllTasks,
+  getById as getTaskById,
+  updateById as updateTaskById,
+} from './task.memory.repository';
 
-const tasksRepo = require('src/resources/tasks/task.memory.repository');
+export const create = async (data: ITask): Promise<ITask> => createTask(data);
 
-const create = async (data: ITask): Promise<ITask> => tasksRepo.create(data);
+export const deleteByBoardId = async (boardId: string): Promise<ITask | string> => deleteTaskByBoardId(boardId);
 
-const deleteByBoardId = async (boardId: string): Promise<ITask> => tasksRepo.deleteByBoardId(boardId);
+export const deleteById = async (id: string): Promise<ITask | undefined> => deleteTaskById(id);
 
-const deleteById = async (id: string): Promise<ITask> => tasksRepo.deleteById(id);
+export const getAll = async (): Promise<ITask[]> => getAllTasks();
 
-const getAll = async (): Promise<ITask[]> => tasksRepo.getAll();
+export const getById = async (id: string): Promise<ITask | undefined> => getTaskById(id);
 
-const getById = async (id: string): Promise<ITask> => tasksRepo.getById(id);
-
-const updateById = async (data: ITask): Promise<ITask> => tasksRepo.updateById(data);
-
-module.exports = {
-  create,
-  deleteByBoardId,
-  deleteById,
-  getAll,
-  getById,
-  updateById,
-};
+export const updateById = async (boardId: string, taskId: string, body: ITask): Promise<ITask> => updateTaskById(boardId, taskId, body);

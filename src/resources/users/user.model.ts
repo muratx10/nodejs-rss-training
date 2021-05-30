@@ -1,7 +1,14 @@
 import {v4 as uuid} from 'uuid';
-import { IUser } from '../../types/interfaces';
 
-class User implements IUser{
+export interface IUser {
+  id: string,
+  name: string,
+  login: string,
+  password: string
+}
+
+
+class User implements IUser {
   public login: string;
 
   public id: string;
@@ -28,4 +35,4 @@ class User implements IUser{
   }
 }
 
-module.exports = User;
+export default User;
