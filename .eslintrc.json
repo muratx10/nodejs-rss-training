@@ -13,7 +13,13 @@
     "@typescript-eslint/eslint-plugin"
   ],
   "settings": {
-    "noInlineConfig": true
+    "noInlineConfig": true,
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts", ".json", ".node", ".d.ts"]
+      },
+      "typescript": {}
+    }
   },
   "extends": [
     "airbnb-typescript/base",
