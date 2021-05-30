@@ -14,5 +14,5 @@ export const deleteById = async (id: string): Promise<IBoard> => deleteBoardById
 export const getAll = async (): Promise<IBoard[]> => Object.values(await getAllBoards());
 
 export const getById = async (id: string): Promise<IBoard> => getBoardById(id);
-
+console.log(0);
 export const updateById = async (id: string, data: IBoard): Promise<IBoard> => updateBoardById(id, data);
