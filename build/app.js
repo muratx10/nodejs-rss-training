@@ -6,6 +6,7 @@ import YAML from 'yamljs';
 import boardRouter from './resources/boards/board.router.js';
 import taskRouter from './resources/tasks/task.router.js';
 import userRouter from './resources/users/user.router.js';
+import { routes } from './constants';
 const filename = fileURLToPath(import.meta.url);
 const dirName = dirname(filename);
 const app = express();
@@ -19,8 +20,8 @@ app.use('/', (req, res, next) => {
     }
     next();
 });
-app.use('/users', userRouter);
-app.use('/boards', boardRouter);
-app.use('/boards/:boardId/tasks', taskRouter);
+app.use(routes.users, userRouter);
+app.use(routes.boards, boardRouter);
+app.use(routes.tasks, taskRouter);
 export default app;
 //# sourceMappingURL=app.js.map
