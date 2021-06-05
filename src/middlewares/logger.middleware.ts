@@ -28,7 +28,8 @@ const loggerMiddleware = (
       `Query: ${query}\n` +
       `Body: ${body}\n` +
       `Status code: ${statusCode}\n` +
-      `Time: [${ms}ms]\n`;
+      `Time: [${ms}ms]\n` +
+      `\n--------------------------------------------------------------------\n`;
 
     logger(msg, 'log');
   });
