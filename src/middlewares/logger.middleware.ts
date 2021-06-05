@@ -4,7 +4,8 @@ import logger from '../utils/logger';
 const loggerMiddleware = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
+  ms: number
 ): void => {
   res.on('close', () => {
     const { statusCode } = res;
@@ -20,10 +21,16 @@ const loggerMiddleware = (
     const params = JSON.stringify(reqParams);
     const body = JSON.stringify(reqBody);
 
-    const msg = `Incoming request: [${method}] for [${url}] params=${params};` +
-      `query=${query}; body=${body}. Response with status code: ${statusCode}`;
+    const msg =
+      `Method: ${method}\n` +
+      `URL: ${url}\n` +
+      `Params: ${params}\n` +
+      `Query: ${query}\n` +
+      `Body: ${body}\n` +
+      `Status code: ${statusCode}\n` +
+      `Time: [${ms}ms]\n`;
 
-    logger(msg, 'general');
+    logger(msg, 'log');
   });
 
   next();

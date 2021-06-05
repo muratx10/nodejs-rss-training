@@ -2,7 +2,7 @@ import { appendFile } from 'fs';
 
 const logger = (msg: string, level = 'common'): void => {
   const filename = `${level}.txt`;
-  const message = `${new Date().toISOString()}: ${msg}\n`;
+  const message = `Date: ${new Date().toISOString()}\n${msg}\n`;
 
   appendFile(filename, message, (err: NodeJS.ErrnoException | null): void => {
     if (err) {
