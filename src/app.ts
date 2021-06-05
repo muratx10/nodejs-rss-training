@@ -30,9 +30,9 @@ app
       : next()
   )
   .use(loggerMiddleware)
+  .use(errHandleMiddleware)
   .use(routes.users, userRouter)
   .use(routes.boards, boardRouter)
-  .use(routes.tasks, taskRouter)
-  .use(errHandleMiddleware);
+  .use(routes.tasks, taskRouter);
 
 export default app;

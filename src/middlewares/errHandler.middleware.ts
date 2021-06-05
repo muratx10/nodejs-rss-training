@@ -9,7 +9,7 @@ const errHandleMiddleware = (
 ): void => {
   logger(err.toString(), 'error');
 
-  res.status(500).end('Service temporarily unavailable');
+  res.status(500).end('Internal Server Error');
 };
 
 export default errHandleMiddleware;
