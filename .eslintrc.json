@@ -35,7 +35,8 @@
     "curly": "warn",
     "eqeqeq": "warn",
     "no-throw-literal": "warn",
-    "semi": "warn"
+    "semi": "warn",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
   },
   "ignorePatterns": ["test/**/*.js"]
 }
