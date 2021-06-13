@@ -1,15 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
-import logger from '../utils/logger';
+import { Request, Response, NextFunction } from "express";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
+import { errorLog } from "utils/logger";
 
-const errHandleMiddleware = (
-  err: Error,
-  _req: Request,
-  res: Response,
-  _next: NextFunction,
-): void => {
-  logger(err.toString(), 'error');
+export const errHandlerMiddleware = (err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  errorLog(err.message, err);
 
-  res.status(500).end('Internal Server Error');
+  res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(ReasonPhrases.INTERNAL_SERVER_ERROR);
 };
-
-export default errHandleMiddleware;

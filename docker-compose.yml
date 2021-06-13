@@ -24,6 +24,7 @@ services:
     volumes:
     - ./logs:/app/logs
     - ./src:/app/src
+    - /app/node_modules
 
 networks:
   app:

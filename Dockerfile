@@ -14,4 +14,5 @@ COPY . .
 
 # Run Server
 EXPOSE $PORT
+RUN apk --update add postgresql-client
 CMD [ "npm", "start" ]

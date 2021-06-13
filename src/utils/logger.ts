@@ -1,19 +1,27 @@
-import { appendFile } from 'fs';
+import {createLogger, transports, format} from 'winston';
 
-const logger = (msg: string, level = 'common'): void => {
-  const filename = `${level}.txt`;
-  const message = `Date: ${new Date().toISOString()}\n${msg}\n`;
+const logger = createLogger({
+  level: 'debug',
+  transports: [
+    new transports.Console({
+      format: format.combine(
+        format.colorize(),
+        format.cli(),
+      )
+    }),
+    new transports.File({
+      filename: 'logs/error.log',
+      format: format.json(),
+      level: 'error',
+    }),
+  ],
+  exitOnError: true,
+});
 
-  appendFile(
-    filename,
-    message,
-    (err: NodeJS.ErrnoException | null): void => {
-      if (err) {
-        // eslint-disable-next-line no-console
-        console.error(`Failed to save log [${message}] to file [${level}]: ` +
-          `Error: ${err}`);
-      }
-    });
+export const log = (msg: string, meta?: object): void => {
+  logger.debug(msg, meta);
 };
 
-export default logger;
+export const errorLog = (errMsg: string, meta?: object): void => {
+  logger.error(errMsg, meta);
+};
