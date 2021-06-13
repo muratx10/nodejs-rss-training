@@ -1,17 +1,19 @@
 import {createLogger, transports, format} from 'winston';
 
+const {colorize, cli, json, combine} = format;
+
 const logger = createLogger({
-  level: 'debug',
+  level: 'silly',
   transports: [
     new transports.Console({
-      format: format.combine(
-        format.colorize(),
-        format.cli(),
+      format: combine(
+        colorize(),
+        cli(),
       )
     }),
     new transports.File({
       filename: 'logs/error.log',
-      format: format.json(),
+      format: json(),
       level: 'error',
     }),
   ],
