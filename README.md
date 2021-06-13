@@ -16,7 +16,7 @@ npm install
 npm start
 ```
 ## Run service in Docker container
-1. Install [Docker](https://docs.docker.com/engine/install/) on your machine.
+1. Install [Docker](https://docs.docker.com/engine/install/) on your machine
 2. Install `docker-compose` on your machine. ([installation guide](https://docs.docker.com/compose/install/))
 3. Run in terminal
    ```
