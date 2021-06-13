@@ -7,6 +7,12 @@ export interface IUser {
   password: string
 }
 
+export interface IUserResponse {
+  id: string,
+  name: string,
+  login: string,
+}
+
 
 class User implements IUser {
   public login: string;
@@ -29,8 +35,9 @@ class User implements IUser {
     this.password = password;
   }
 
-  static toResponse(user: IUser) {
+  static toResponse(user: IUser): IUserResponse {
     const { id, name, login } = user;
+
     return { id, name, login };
   }
 }

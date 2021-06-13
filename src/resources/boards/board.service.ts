@@ -1,18 +1,21 @@
-import Board, { IBoard } from "./board.model";
-import {
-  create as createBoard ,
-  deleteById as deleteBoardById,
-  getAll as getAllBoards,
-  getById as getBoardById,
-  updateById as updateBoardById
-}  from './board.memory.repository';
+import * as tasksService from '../tasks/task.service';
+import boards from './board.memory.repository';
+import {IBoard} from './board.model';
 
-export const create = async (data: IBoard): Promise<IBoard> => createBoard(new Board(data));
+export const getAll = async (): Promise<IBoard[]> => boards.getAll();
 
-export const deleteById = async (id: string): Promise<IBoard> => deleteBoardById(id);
+export const getById = async (id: string): Promise<IBoard | undefined> => boards.getById(id);
 
-export const getAll = async (): Promise<IBoard[]> => Object.values(await getAllBoards());
+export const create = async (board: IBoard): Promise<IBoard> => boards.create(board.id, board);
 
-export const getById = async (id: string): Promise<IBoard> => getBoardById(id);
+export const updateById = async (id: string, board: Partial<IBoard>): Promise<IBoard | undefined> => boards.update(id, board);
 
-export const updateById = async (id: string, data: IBoard): Promise<IBoard> => updateBoardById(id, data);
+export const deleteById = async (id: string): Promise<IBoard | undefined> => {
+  const deletedBoard = await boards.getById(id);
+  const tasks = await tasksService.getAll(id);
+
+  await Promise.all(tasks.map((task) => tasksService.deleteById(id, task.id)));
+  await boards.deleteById(id);
+
+  return deletedBoard;
+};

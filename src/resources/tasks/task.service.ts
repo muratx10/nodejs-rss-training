@@ -1,23 +1,15 @@
-import Task, { ITask } from "./task.model";
-import {
-  create as createTask,
-  deleteById as deleteTaskById,
-  getAll as getAllTasks,
-  getById as getTaskById,
-  updateById as updateTaskById,
-} from './task.memory.repository';
+import tasks from './task.memory.repository';
+import { ITask } from './task.model';
 
-export const create = async (boardId: string, body: ITask): Promise<ITask> =>
-  createTask(boardId, new Task({ ...body, boardId }));
+export const create = (boardId: string, task: ITask): Promise<ITask | undefined> => tasks
+  .create(boardId, task.id, task);
 
-export const deleteById = async (boardId: string, taskId: string): Promise<ITask | undefined> =>
-  deleteTaskById(boardId, taskId);
+export const getAll = (boardId: string): Promise<ITask[]> => tasks.getAll(boardId);
 
-export const getAll = async (boardId: string): Promise<ITask[]> =>
-  Object.values(await getAllTasks(boardId));
+export const getById = (boardId: string, taskId: string): Promise<ITask | undefined> => tasks.getById(boardId, taskId);
 
-export const getById = async (boardId: string, taskId: string): Promise<ITask | undefined> =>
-  getTaskById(boardId, taskId);
+export const updateById = (boardId: string, taskId: string, task: Partial<ITask>): Promise<ITask> => tasks
+  .update(boardId, taskId, task);
 
-export const updateById = async (boardId: string, taskId: string, body: ITask): Promise<ITask> =>
-  updateTaskById(boardId, taskId, { ...body, boardId, id: taskId });
+export const deleteById = (boardId: string, taskId: string): Promise<ITask | undefined> => tasks
+  .deleteById(boardId, taskId);

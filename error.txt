@@ -8,3 +8,7 @@ Date: 2021-06-06T19:05:40.566Z
 unhandledRejection: Error: OOPS
 Date: 2021-06-06T19:06:16.991Z
 unhandledRejection: Error: OOPS
+Date: 2021-06-12T21:30:43.486Z
+unhandledRejection: ReferenceError: __dirname is not defined
+Date: 2021-06-12T21:30:48.150Z
+unhandledRejection: ReferenceError: __dirname is not defined
