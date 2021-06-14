@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
+import config from 'config/orm.config';
 import { getConnection, createConnection, Connection } from 'typeorm';
-import { config } from "../config/orm.config";
+/* eslint-disable no-console */
 
 export const connectToDB = async (): Promise<void> => {
   let connection: Connection | null = null;

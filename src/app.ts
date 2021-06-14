@@ -2,6 +2,8 @@ import express, { NextFunction, Request, Response } from "express";
 import swaggerUI from "swagger-ui-express";
 import path from "path";
 import YAML from "yamljs";
+import cors from 'cors';
+import 'reflect-metadata';
 
 import boardRouter from "./resources/boards/board.router";
 import taskRouter from "./resources/tasks/task.router";
@@ -14,6 +16,8 @@ import { errorLog } from "./utils/logger";
 import { routes } from "./constants";
 
 const app = express();
+
+app.use(cors());
 
 const swaggerDocument = YAML.load(path.join(__dirname, "../doc/api.yaml"));
 

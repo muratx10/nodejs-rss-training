@@ -1,4 +1,3 @@
-import * as tasksService from '../tasks/task.service';
 import { IBoard } from "../../interfaces/interfeces";
 import * as DB from './board.repository';
 
@@ -13,12 +12,4 @@ export const updateById = async (
   board: Partial<IBoard>
 ): Promise<IBoard | undefined> => DB.update(id, board);
 
-export const deleteById = async (id: string): Promise<IBoard | undefined> => {
-  const deletedBoard = await DB.getById(id);
-  const tasks = await tasksService.getAll(id);
-
-  await Promise.all(tasks.map((task) => tasksService.deleteById(id, task.id)));
-  await DB.deleteById(id);
-
-  return deletedBoard;
-};
+export const deleteById = async (boardId: string): Promise<boolean> => DB.deleteById(boardId);

@@ -19,3 +19,16 @@ export interface ITask {
   boardId: string,
   columnId: string | null,
 }
+
+export interface IUser {
+  id: string,
+  name: string,
+  login: string,
+  password: string
+}
+
+export interface IUserResponse {
+  id: string,
+  name: string,
+  login: string,
+}

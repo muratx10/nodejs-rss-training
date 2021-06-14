@@ -1,24 +1,22 @@
+import { getConnection  } from "typeorm";
 import { ITask } from "../../interfaces/interfeces";
-import { getDBConnection } from "../../db/psql";
-import Task from "./task.model";
+import Task from "../../entities/task.entity";
 
-const DB = getDBConnection()!.getRepository(Task);
-
-export const getAll = async (boardId: string): Promise<ITask[]> => DB.find({ where: { boardId } });
+export const getAll = async (boardId: string): Promise<ITask[]> => getConnection().getRepository(Task).find({ where: { boardId } });
 
 export const getById = async (
   boardId: string,
   taskId: string
-): Promise<ITask | undefined> => DB.findOne(taskId, { where: { boardId } });
+): Promise<ITask | undefined> => getConnection().getRepository(Task).findOne(taskId, { where: { boardId } });
 
-export const create = async (item: ITask): Promise<ITask> => DB.save(item);
+export const create = async (item: ITask): Promise<ITask> => getConnection().getRepository(Task).save(item);
 
 export const update = async (
   boardId: string,
   taskId: string,
   data: Partial<ITask>
 ): Promise<ITask> => {
-  await DB.update(taskId, data);
+  await getConnection().getRepository(Task).update(taskId, data);
 
   const task = await getById(boardId, taskId);
 
@@ -26,6 +24,6 @@ export const update = async (
 };
 
 export const deleteById = async (taskId: string): Promise<boolean> => {
-  const res = await DB.delete(taskId);
+  const res = await getConnection().getRepository(Task).delete(taskId);
   return !!res.affected;
 };

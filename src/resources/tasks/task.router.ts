@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { handleRequest } from "../../utils/handleRequest";
-import Task from "./task.model";
+import Task from "../../entities/task.entity";
 import * as tasksService from "./task.service";
 
 const router = Router({ mergeParams: true });
