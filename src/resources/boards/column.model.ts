@@ -1,0 +1,35 @@
+import { v4 as uuid } from "uuid";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+// eslint-disable-next-line import/no-cycle
+import Board from "./board.model";
+import { IBoard, IColumn } from "../../interfaces/interfeces";
+
+@Entity()
+class BoardColumn implements IColumn {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+
+  @Column({ length: 255 })
+  title: string;
+
+  @Column("integer")
+  order: number;
+
+  @ManyToOne(() => Board, { onDelete: "CASCADE" })
+  board!: IBoard;
+
+  @Column()
+  boardId: string = "";
+
+  constructor({
+    id = uuid(),
+    title = "",
+    order = 0
+  }: Partial<IColumn> = {}) {
+    this.id = id;
+    this.title = title;
+    this.order = order;
+  }
+}
+
+export default BoardColumn;

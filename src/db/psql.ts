@@ -8,13 +8,13 @@ import {
 import Board from 'resources/boards/board.model';
 import BoardColumn from 'resources/boards/column.model';
 import Task from 'resources/tasks/task.model';
-import { InitMigration } from 'migrations/init';
 import User from 'resources/users/user.model';
 import { Connection, createConnection } from 'typeorm';
+import {Migration} from './1624280111976-Migration';
 
 let connection: Connection | null = null;
 
-export const initializeDB = async () => {
+export const initializeDatabase = async () => {
   connection = await createConnection({
     type: 'postgres',
     host: DB_HOST,
@@ -23,11 +23,11 @@ export const initializeDB = async () => {
     password: POSTGRES_PASSWORD,
     database: POSTGRES_DB,
     entities: [User, Board, BoardColumn, Task],
-    migrations: [InitMigration],
+    migrations: [Migration],
     migrationsRun: true,
   });
 
   return connection;
 };
 
-export const getConnection = () => connection;
+export const getDBConnection = () => connection;

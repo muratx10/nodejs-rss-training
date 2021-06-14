@@ -4,3 +4,5 @@ export const routes = {
   boards: '/boards',
   tasks: '/boards/:boardId/tasks',
 };
+
+export const MAX_TEXT_LENGTH = 255;
