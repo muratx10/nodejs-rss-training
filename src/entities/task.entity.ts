@@ -1,9 +1,9 @@
 import { v4 as uuid } from "uuid";
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import Board from "resources/boards/board.model";
-import User from "resources/users/user.model";
-import { ITask } from "../../interfaces/interfeces";
-import BoardColumn from "../boards/column.model";
+import Board from "entities/board.entity";
+import User from "entities/user.entity";
+import { ITask } from "../interfaces/interfeces";
+import BoardColumn from "./column.entity";
 
 @Entity()
 class Task implements ITask{

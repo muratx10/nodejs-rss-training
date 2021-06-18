@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class Migration1624280111976 implements MigrationInterface {
   // eslint-disable-next-line class-methods-use-this
@@ -79,11 +79,11 @@ export class Migration1624280111976 implements MigrationInterface {
       DROP CONSTRAINT "FK_boards_board_columns"
     `);
 
-    await queryRunner.query('DROP TABLE "task"');
-    await queryRunner.query('DROP TABLE "user"');
-    await queryRunner.query('DROP TABLE "board"');
-    await queryRunner.query('DROP TABLE "board_column"');
+    await queryRunner.query("DROP TABLE \"task\"");
+    await queryRunner.query("DROP TABLE \"user\"");
+    await queryRunner.query("DROP TABLE \"board\"");
+    await queryRunner.query("DROP TABLE \"board_column\"");
   }
 }
 
-export {Migration1624280111976 as Migration};
+export { Migration1624280111976 as Migration };

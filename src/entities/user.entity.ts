@@ -1,26 +1,19 @@
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from "uuid";
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { IUser, IUserResponse } from "../interfaces/interfeces";
 
-export interface IUser {
-  id: string,
-  name: string,
-  login: string,
-  password: string
-}
-
-export interface IUserResponse {
-  id: string,
-  name: string,
-  login: string,
-}
-
-
+@Entity()
 class User implements IUser {
+  @PrimaryGeneratedColumn('uuid')
   public login: string;
 
+  @Column({length: 255})
   public id: string;
 
+  @Column({length: 255})
   public name: string;
 
+  @Column({length: 255})
   public password: string;
 
   constructor({
