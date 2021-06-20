@@ -6,15 +6,25 @@ dotenv.config({
 });
 
 const {
-  PORT,
-  NODE_ENV,
+  AUTH_MODE,
+  DB_HOST,
   JWT_SECRET_KEY,
-  AUTH_MODE
+  NODE_ENV,
+  PORT,
+  POSTGRES_DB,
+  POSTGRES_PASSWORD,
+  POSTGRES_USER,
 } = process.env;
 
+export const POSTGRES_PORT = Number(process.env['POSTGRES_PORT']);
+
 export {
-  PORT,
-  NODE_ENV,
-  JWT_SECRET_KEY,
   AUTH_MODE,
+  DB_HOST,
+  JWT_SECRET_KEY,
+  NODE_ENV,
+  PORT,
+  POSTGRES_DB,
+  POSTGRES_PASSWORD,
+  POSTGRES_USER
 };
