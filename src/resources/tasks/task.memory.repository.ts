@@ -1,49 +1,53 @@
 import { ITask } from './task.model';
-import { notFoundError } from '../../constants';
 
-export const tasks: ITask[] = [
+class TasksDB {
+  private readonly _tasks: Record<string, Map<string, ITask>>;
 
-];
+  constructor() {
+    this._tasks = {};
+  }
 
-export const create = async (boardId: string, task: ITask): Promise<ITask> => {
-  if (!tasks[boardId]) throw new Error(notFoundError);
+  async getAll(boardId: string): Promise<ITask[]> {
+    return this._tasks[boardId]
+      ? Array.from(this._tasks[boardId]!.values())
+      : [];
+  }
 
-  tasks[boardId]![task.id] = task;
+  async getById(boardId: string, id: string): Promise<ITask | undefined> {
+    return this._tasks[boardId]
+      ? this._tasks[boardId]!.get(id)
+      : undefined;
+  }
 
-  return tasks[boardId]![task.id];
-};
+  async create(boardId: string, id: string, task: ITask): Promise<ITask> {
+    if (!this._tasks[boardId]) this._tasks[boardId] = new Map();
 
-export const getAll = async (boardId: string): Promise<ITask[]> => tasks[boardId] || {};
+    this._tasks[boardId]!.set(id, task);
 
-export const updateById = async (boardId: string, taskId: string, task: ITask): Promise<ITask> => {
-  if (!tasks[boardId]?.[taskId]) throw new Error(notFoundError);
+    return task;
+  }
 
-  tasks[boardId]![taskId] = { ...tasks[boardId]![taskId], ...task };
+  async update(boardId: string, id: string, task: Partial<ITask>): Promise<ITask> {
+    const taskToUpdate = this._tasks[boardId]
+      ? this._tasks[boardId]!.get(id)
+      : null;
 
-  return tasks[boardId]![taskId];
-};
+    if (!this._tasks[boardId]) this._tasks[boardId] = new Map();
 
-export const getById = async (boardId: string, taskId: string): Promise<ITask | undefined> => {
-  if (!tasks[boardId]?.[taskId]) throw new Error(notFoundError);
+    const updatedTask = {...taskToUpdate, ...task} as ITask;
 
-  return tasks[boardId]?.[taskId];
-};
+    this._tasks[boardId]!.set(id, updatedTask);
 
-export const deleteById = async (boardId: string, taskId: string): Promise<ITask | undefined> => {
-  if (!tasks[boardId]?.[taskId]) throw new Error(notFoundError);
+    return updatedTask;
+  }
 
-  const deletedTask = tasks[boardId]![taskId];
-  delete tasks[boardId]![taskId];
-  return deletedTask;
-};
+  async deleteById(boardId: string, id: string): Promise<ITask | undefined> {
+    const deletedTask = this._tasks[boardId]!.get(id);
 
-export const removeUsersTasks = async (id: string) => {
-  const allTasks = Object.values(tasks)
-    .map(boardTasks => Object.values(boardTasks)).flat();
+    if (deletedTask) this._tasks[boardId]!.delete(id);
 
-  allTasks.forEach((task: ITask) => {
-    if (!(task.userId === id) || !tasks[task.boardId]) return;
+    return deletedTask;
+  }
+}
 
-    tasks[task.boardId]![task.id]!.userId = null;
-  });
-};
+export default new TasksDB();

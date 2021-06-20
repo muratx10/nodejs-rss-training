@@ -5,9 +5,9 @@ export interface ITask {
   title: string,
   order: number,
   description: string,
-  userId?: string | null,
+  userId: string | null,
   boardId: string,
-  columnId?: string,
+  columnId: string | null,
 }
 
 class Task implements ITask{
@@ -19,14 +19,14 @@ class Task implements ITask{
 
   public description: string
 
-  public userId?: string | null
+  public userId: string | null
 
   public boardId: string
 
-  public columnId?: string
+  public columnId: string | null
 
-  constructor(task: ITask) {
-    this.boardId = task.boardId || '';
+  constructor(boardId: string, task: ITask) {
+    this.boardId = boardId;
     this.columnId = task.columnId;
     this.description = task.description || '';
     this.id = task.id || uuid();

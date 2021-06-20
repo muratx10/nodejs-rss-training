@@ -1,90 +1,50 @@
-import express, {Request, Response} from 'express';
-import { create, deleteById, getAll, getById, updateById } from './task.service';
+import { Router } from 'express';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { handleRequest } from '../../utils/handleRequest';
+import Task from './task.model';
+import * as tasksService from './task.service';
 
-const router = express.Router({ mergeParams: true });
+const router = Router({ mergeParams: true });
 
-type BoardParams = {
-  boardId: string,
-  taskId?: string
-}
+router
+  .route('/')
+  .get(handleRequest(async (req, res) => {
+    const { params: { boardId } } = req;
+    const tasks = await tasksService.getAll(boardId!);
 
-router.route('/').post(async (req: Request<BoardParams>, res: Response) => {
-  try {
-    const { body } = req;
-    const { boardId } = req.params;
+    res.status(StatusCodes.OK).json(tasks);
+  }))
+  .post(handleRequest(async (req, res) => {
+    const { params: { boardId }, body } = req;
+    const task = await tasksService.create(boardId!, new Task(boardId!, body));
 
-    if (!boardId) return;
+    if (!task) res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
+    else res.status(StatusCodes.CREATED).json(task);
+  }));
 
-    const task = await create(boardId, body);
-
-    if (!task) return;
-    res.status(201).json(task);
-  } catch (e) {
-    res.status(400).send({message: e});
-  }
-});
-
-router.route('/').get(async (req: Request, res: Response) => {
-  try {
-    const { params: {boardId} } = req;
-
-    if (!boardId) return;
-
-    const tasks = await getAll(boardId);
-
-    res.status(200).json(tasks);
-  } catch (e) {
-    res.status(400).send({message: e});
-  }
-});
-
-router.route('/:taskId').put(async (req: Request<BoardParams>, res: Response) => {
-  try {
-    const { body } = req;
-    const { taskId, boardId } = req.params;
-
-    if (!taskId || !boardId) return;
-
-    const task = await updateById(boardId, taskId, body);
-
-    if (!task) return;
-
-    res.status(200).json(task);
-  } catch (e) {
-    res.status(404).send({message: e});
-  }
-});
-
-router.route('/:taskId').get(async (req: Request<BoardParams>, res: Response) => {
-    try {
-      const { taskId, boardId } = req.params;
-
-      if (!boardId || !taskId) return;
-
-      const task = await getById(boardId, taskId);
-
-      if (!task) return;
-
-      res.status(200).json(task);
-    } catch (e) {
-      res.status(404).send({message: e});
-    }
-});
-
-router.route('/:taskId').delete(async (req: Request<BoardParams>, res: Response) => {
-  try {
+router
+  .route('/:taskId')
+  .get(handleRequest(async (req, res) => {
     const { params: { taskId, boardId } } = req;
+    const task = await tasksService.getById(boardId!, taskId!);
 
-    if (!boardId || !taskId) return;
+    if (!task) res.status(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+    else res.status(StatusCodes.OK).json(task);
+  }))
+  .put(handleRequest(async (req, res) => {
+    const {params: {taskId, boardId}, body} = req;
+    const updatedTask = await tasksService.updateById(boardId!, taskId!, body);
 
-    const deletedTask = await deleteById(boardId, taskId);
+    if (!updatedTask) res.status(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+    else res.status(StatusCodes.OK).json(updatedTask);
+  }))
+  .delete(handleRequest(async (req, res) => {
+    const {params: {taskId, boardId}} = req;
+    const deletedTask = await tasksService.deleteById(boardId!, taskId!);
 
-    if (!deletedTask) return;
-
-    res.status(204).json(deletedTask);
-  } catch (e) {
-    res.status(404).send({message: e});
-  }
-});
+    if (!deletedTask) res.status(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+    else res.status(StatusCodes.NO_CONTENT).json(deletedTask);
+  }));
 
 export default router;
+
