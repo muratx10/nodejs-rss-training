@@ -1,5 +1,10 @@
 import { v4 as uuid } from "uuid";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from "typeorm";
 // eslint-disable-next-line import/no-cycle
 import BoardColumn from "./column.entity";
 import { IBoard, IColumn } from "../interfaces/interfeces";
