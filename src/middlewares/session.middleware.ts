@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import * as userService from "resources/users/user.service";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { verifyToken } from "../utils/auth";
+import { verifyToken } from "../resources/auth/auth.service";
 
 const sessionMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const sessionToken = req.headers.authorization;

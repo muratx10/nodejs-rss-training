@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { IUser, IUserResponse } from "../interfaces/interfaces";
-import { encodePassword } from "../utils/auth";
+import { encodePassword } from "../resources/auth/auth.service";
 
 @Entity()
 class User implements IUser {

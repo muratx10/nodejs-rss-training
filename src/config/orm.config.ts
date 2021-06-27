@@ -18,7 +18,9 @@ const config: ConnectionOptions = {
   database: DB_NAME,
   synchronize: true,
   logging: true,
-  entities: ['./src/entities/**/*.ts'],
+  migrationsRun: true,
+  autoReconnect: true,
+  entities: ['./src/entities/**/*.ts', './build/src/entity/*.js'],
   migrations: ['./src/migration/*.ts'],
   cli: {
     migrationsDir: './src/migration',

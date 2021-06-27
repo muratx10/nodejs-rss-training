@@ -5,7 +5,7 @@ import YAML from "yamljs";
 import cors from 'cors';
 import 'reflect-metadata';
 
-import loginRouter from "resources/auth/login.router";
+import loginRouter from "resources/auth/auth.router";
 import boardRouter from "./resources/boards/board.router";
 import taskRouter from "./resources/tasks/task.router";
 import userRouter from "./resources/users/user.router";

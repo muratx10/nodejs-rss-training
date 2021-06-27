@@ -1,6 +1,6 @@
 import * as users from './user.repository';
 import { IUser } from "../../interfaces/interfaces";
-import { encodePassword } from "../../utils/auth";
+import { encodePassword } from "../auth/auth.service";
 
 export const create = async (user: IUser): Promise<IUser> => users.create(user);
 
