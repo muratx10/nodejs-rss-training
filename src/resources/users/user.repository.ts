@@ -1,4 +1,4 @@
-import { IUser } from "interfaces/interfeces";
+import { IUser } from "interfaces/interfaces";
 import { getConnection } from "typeorm";
 import User from "../../entities/user.entity";
 
@@ -20,3 +20,7 @@ export const deleteById = async (userId: string) => {
   const res = await getConnection().getRepository(User).delete(userId);
   return !!res.affected;
 };
+
+export const getByUsername = async (username: string) => getConnection()
+  .getRepository(User)
+  .findOne({ where: { username } });

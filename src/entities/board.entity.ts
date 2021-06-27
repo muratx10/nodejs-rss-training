@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 // eslint-disable-next-line import/no-cycle
 import BoardColumn from "./column.entity";
-import { IBoard, IColumn } from "../interfaces/interfeces";
+import { IBoard, IColumn } from "../interfaces/interfaces";
 
 @Entity()
 class Board implements IBoard {

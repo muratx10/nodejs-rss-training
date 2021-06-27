@@ -1,6 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { IUser, IUserResponse } from "../interfaces/interfeces";
+import { IUser, IUserResponse } from "../interfaces/interfaces";
+import { encodePassword } from "../utils/auth";
 
 @Entity()
 class User implements IUser {
@@ -14,7 +15,7 @@ class User implements IUser {
   public name: string;
 
   @Column({length: 255})
-  public password: string;
+  public passwordHash: string;
 
   constructor({
     id = uuid(),
@@ -25,7 +26,7 @@ class User implements IUser {
     this.id = id;
     this.login = login;
     this.name = name;
-    this.password = password;
+    this.passwordHash = encodePassword(password);
   }
 
   static toResponse(user: IUser): IUserResponse {

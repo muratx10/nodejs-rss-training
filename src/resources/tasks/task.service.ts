@@ -1,5 +1,5 @@
 import * as tasks from "./task.repository";
-import { ITask } from "../../interfaces/interfeces";
+import { ITask } from "../../interfaces/interfaces";
 
 export const create = (task: ITask): Promise<ITask | undefined> => tasks.create(task);
 

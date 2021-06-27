@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-import { IUser } from "../interfaces/interfeces";
+import { IUser } from "../interfaces/interfaces";
 import { SECRET } from '../config/config';
 
 type JWTToken = {

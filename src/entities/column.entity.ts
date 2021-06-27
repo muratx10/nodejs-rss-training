@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 // eslint-disable-next-line import/no-cycle
 import Board from "./board.entity";
-import { IBoard, IColumn } from "../interfaces/interfeces";
+import { IBoard, IColumn } from "../interfaces/interfaces";
 
 @Entity()
 class BoardColumn implements IColumn {

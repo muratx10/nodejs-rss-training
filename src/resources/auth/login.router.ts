@@ -12,7 +12,7 @@ router
   .route('/')
   .post(handleRequest(async (req, res) => {
     const { login, password } = req.body;
-    const auth = await loginService.tryAuthorize(login, password);
+    const auth = await loginService.authorizeUser(login, password);
 
     if (typeof auth === 'string') {
       res

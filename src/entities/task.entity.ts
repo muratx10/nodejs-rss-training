@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import Board from "entities/board.entity";
 import User from "entities/user.entity";
-import { ITask } from "../interfaces/interfeces";
+import { ITask } from "../interfaces/interfaces";
 import BoardColumn from "./column.entity";
 
 @Entity()
