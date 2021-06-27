@@ -1,7 +1,14 @@
-import app from './app';
-import { PORT } from './common/config';
+import app from "app";
+import { PORT } from "config/config";
+import { createConnection } from "typeorm";
 
-app.listen(PORT, () =>
-  // eslint-disable-next-line no-console
-  console.log(`App is running on http://localhost:${PORT}`)
-);
+createConnection()
+  .then(() => {
+    app.listen(PORT, () =>
+      process.stdout.write(`App is running on http://localhost:${PORT}`)
+    );
+  })
+  .catch((e) => {
+    process.stderr.write('Failed to connect DB', e.message);
+    process.exit(1);
+  });

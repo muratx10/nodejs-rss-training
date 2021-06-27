@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import {handleRequest} from '../../utils/handleRequest';
-import Board from './board.model';
+import Board from '../../entities/board.entity';
 import * as boardsService from './board.service';
 
 const router = Router();
