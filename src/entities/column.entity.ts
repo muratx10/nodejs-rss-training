@@ -9,7 +9,7 @@ class BoardColumn implements IColumn {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ length: 255 })
+  @Column('varchar', { length: 255 })
   title: string;
 
   @Column("integer")
@@ -18,7 +18,7 @@ class BoardColumn implements IColumn {
   @ManyToOne(() => Board, { onDelete: "CASCADE" })
   board!: IBoard;
 
-  @Column()
+  @Column('varchar', {length: 255})
   boardId: string = "";
 
   constructor({

@@ -14,7 +14,7 @@ class Board implements IBoard {
   @PrimaryGeneratedColumn("uuid")
   public id: string;
 
-  @Column({ length: 255 })
+  @Column('varchar', { length: 255 })
   public title: string;
 
   @OneToMany(
