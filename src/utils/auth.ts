@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { VerifyErrors, JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 import { IUser } from "../interfaces/interfaces";
@@ -17,18 +17,24 @@ declare global{
   }
 }
 
-export const verifyToken = async (token: string) => new Promise<JWTToken>((resolve, reject) => {
-  jwt.verify(token.replace('Bearer ', ''), SECRET!, (err, decoded) => {
+export const verifyToken = async (token: string) => new Promise<JWTToken>((res, rej) => {
+  jwt.verify(
+    token.replace('Bearer ', ''),
+    SECRET!,
+    (err: VerifyErrors | null, decoded: JwtPayload | undefined) => {
     if (err || !decoded) {
-      return reject();
+      return rej();
     }
 
-    return resolve(decoded as JWTToken);
+    return res(decoded as JWTToken);
   });
 });
 
-export const createSessionToken = async (data: JWTToken) => jwt.sign(data, SECRET!, { expiresIn: 60 * 60 * 24 });
+export const createSessionToken = async (data: JWTToken) =>
+  jwt.sign(data, SECRET!, { expiresIn: 60 * 60 * 24 });
 
-export const encodePassword = (password: string): string => bcrypt.hashSync(password, 10);
+export const encodePassword = (password: string): string =>
+  bcrypt.hashSync(password, 10);
 
-export const comparePassword = async (password: string, passwordHash: string): Promise<boolean> => bcrypt.compare(password, passwordHash);
+export const comparePassword = async (password: string, passwordHash: string): Promise<boolean> =>
+  bcrypt.compare(password, passwordHash);
