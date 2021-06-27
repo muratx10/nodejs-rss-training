@@ -1,5 +1,7 @@
 import config from 'config/orm.config';
 import { getConnection, createConnection, Connection } from 'typeorm';
+import * as usersService from '../resources/users/user.service';
+import User from '../entities/user.entity';
 /* eslint-disable no-console */
 
 export const connectToDB = async (): Promise<void> => {
@@ -27,4 +29,16 @@ export const connectToDB = async (): Promise<void> => {
 export const tryDBConnect = async (cb: () => void): Promise<void> => {
   await connectToDB();
   cb();
+};
+
+export const initRootUser = async () => {
+  const admin = await usersService.getByUsername('admin');
+
+  if (!admin) {
+    await usersService.create(new User({
+      name: 'admin',
+      login: 'admin',
+      password: 'admin',
+    }));
+  }
 };

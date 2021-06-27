@@ -7,7 +7,7 @@ export class Migration1624280111976 implements MigrationInterface {
       "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
       "name" VARCHAR(255) NOT NULL,
       "login" VARCHAR(255) NOT NULL,
-      "password" VARCHAR(255) NOT NULL,
+      "passwordHash" VARCHAR(255) NOT NULL,
       CONSTRAINT "PK_user" PRIMARY KEY ("id")
     )`);
 
