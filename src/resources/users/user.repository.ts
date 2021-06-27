@@ -21,6 +21,6 @@ export const deleteById = async (userId: string) => {
   return !!res.affected;
 };
 
-export const getByUsername = async (username: string) => getConnection()
+export const getByUsername = async (login: string) => getConnection()
   .getRepository(User)
-  .findOne({ where: { username } });
+  .findOne({ where: { login } });

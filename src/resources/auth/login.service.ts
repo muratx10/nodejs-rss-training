@@ -4,8 +4,8 @@ import { IUser } from "../../interfaces/interfaces";
 
 type ErrorCode = 'BAD_CREDENTIALS' | 'USER_NOT_FOUND'
 
-export const authorizeUser = async (username: string, password: string): Promise<IUser | ErrorCode> => {
-  const user = await usersService.getByUsername(username);
+export const authorizeUser = async (login: string, password: string): Promise<IUser | ErrorCode> => {
+  const user = await usersService.getByUsername(login);
 
   if (!user) return 'USER_NOT_FOUND';
 

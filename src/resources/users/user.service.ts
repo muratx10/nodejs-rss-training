@@ -18,4 +18,4 @@ export const updateById = async (userId: string, data: Partial<IUser & { passwor
 
 export const deleteById = async (id: string): Promise<boolean> => users.deleteById(id);
 
-export const getByUsername = async (username: string): Promise<IUser | undefined> => users.getByUsername(username);
+export const getByUsername = async (login: string): Promise<IUser | undefined> => users.getByUsername(login);
