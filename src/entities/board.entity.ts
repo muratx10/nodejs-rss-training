@@ -9,7 +9,7 @@ import {
 import BoardColumn from "./column.entity";
 import { IBoard, IColumn } from "../interfaces/interfaces";
 
-@Entity()
+@Entity({name: 'Board'})
 class Board implements IBoard {
   @PrimaryGeneratedColumn("uuid")
   public id: string;

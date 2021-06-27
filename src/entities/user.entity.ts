@@ -1,9 +1,10 @@
 import { v4 as uuid } from "uuid";
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { IUser, IUserResponse } from "../interfaces/interfaces";
+// eslint-disable-next-line import/no-cycle
 import { encodePassword } from "../resources/auth/auth.service";
 
-@Entity()
+@Entity({name: 'User'})
 class User implements IUser {
   @PrimaryGeneratedColumn('uuid')
   public login: string;

@@ -5,7 +5,7 @@ import User from "entities/user.entity";
 import { ITask } from "../interfaces/interfaces";
 import BoardColumn from "./column.entity";
 
-@Entity()
+@Entity({name: 'Task'})
 class Task implements ITask{
   @PrimaryGeneratedColumn('uuid')
   public id: string

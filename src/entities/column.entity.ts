@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import Board from "./board.entity";
 import { IBoard, IColumn } from "../interfaces/interfaces";
 
-@Entity()
+@Entity({name: 'Column'})
 class BoardColumn implements IColumn {
   @PrimaryGeneratedColumn("uuid")
   id: string;
