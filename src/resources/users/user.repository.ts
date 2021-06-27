@@ -1,5 +1,6 @@
 import { IUser } from "interfaces/interfaces";
 import { getConnection } from "typeorm";
+// eslint-disable-next-line import/no-cycle
 import User from "../../entities/user.entity";
 
 export const create = async (user: IUser) => getConnection().getRepository(User).save(user);

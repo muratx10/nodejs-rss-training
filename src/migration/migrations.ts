@@ -1,8 +1,10 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class Migration1624280111976 implements MigrationInterface {
+  name = 'Migration1624280111976';
+
   // eslint-disable-next-line class-methods-use-this
-  async up(queryRunner: QueryRunner): Promise<void> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`CREATE TABLE "user" (
       "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
       "name" VARCHAR(255) NOT NULL,
@@ -62,7 +64,7 @@ export class Migration1624280111976 implements MigrationInterface {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async down(queryRunner: QueryRunner): Promise<void> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`ALTER TABLE "task"
       DROP CONSTRAINT "FK_users_tasks"
     `);

@@ -1,4 +1,4 @@
-import { ConnectionOptions } from 'typeorm';
+import { ConnectionOptions } from "typeorm";
 import {
   DB_TYPE,
   DB_HOST,
@@ -6,10 +6,11 @@ import {
   DB_USER,
   DB_PASSWORD,
   DB_NAME
-} from './config';
+} from "./config";
+import "reflect-metadata";
 
 const config: ConnectionOptions = {
-  name: 'default',
+  name: "default",
   type: DB_TYPE,
   host: DB_HOST,
   port: Number(DB_PORT),
@@ -20,11 +21,11 @@ const config: ConnectionOptions = {
   logging: true,
   migrationsRun: true,
   autoReconnect: true,
-  entities: ['./src/entities/**/*.ts', './build/src/entity/*.js'],
+  entities: ['./src/entities/**/*.ts'],
   migrations: ['./src/migration/*.ts'],
   cli: {
-    migrationsDir: './src/migration',
-  },
+    migrationsDir: "./src/migration"
+  }
 };
 
 export default config;

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import * as users from './user.repository';
 import { IUser } from "../../interfaces/interfaces";
 import { encodePassword } from "../auth/auth.service";

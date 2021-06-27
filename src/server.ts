@@ -6,10 +6,10 @@ import { initRootUser, tryDBConnect } from "./db/db";
 
 tryDBConnect(async () => {
   try {
-    await initRootUser();
     app.listen(PORT, () =>
       process.stdout.write(`App is running on http://localhost:${PORT}`)
     );
+    await initRootUser();
   } catch (e) {
     if (e.statusCode ===  StatusCodes.CONFLICT) {
       console.error('User already exists.');
