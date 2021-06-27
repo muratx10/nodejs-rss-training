@@ -1,8 +1,6 @@
-import * as usersService from 'resources/users/user.service';
-import { comparePassword } from 'utils/auth';
-import { IUser } from "../../interfaces/interfaces";
-
-type ErrorCode = 'BAD_CREDENTIALS' | 'USER_NOT_FOUND'
+import * as usersService from "resources/users/user.service";
+import { comparePassword } from "utils/auth";
+import { ErrorCode, IUser } from "../../interfaces/interfaces";
 
 export const authorizeUser = async (login: string, password: string): Promise<IUser | ErrorCode> => {
   const user = await usersService.getByUsername(login);

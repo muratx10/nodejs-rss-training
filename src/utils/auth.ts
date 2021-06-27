@@ -1,13 +1,8 @@
-import jwt, { VerifyErrors, JwtPayload } from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
-import { IUser } from "../interfaces/interfaces";
+import { IUser, JWTToken } from "../interfaces/interfaces";
 import { SALT, SECRET, TOKEN_EXPIRE_TIME } from "../config/config";
-
-type JWTToken = {
-  userId: string;
-  login: string;
-}
 
 declare global{
   namespace Express {
@@ -30,11 +25,11 @@ export const verifyToken = async (token: string) => new Promise<JWTToken>((res, 
   });
 });
 
-export const createSessionToken = async (data: JWTToken) =>
-  jwt.sign(data, SECRET!, { expiresIn: TOKEN_EXPIRE_TIME });
-
 export const encodePassword = (password: string): string =>
   bcrypt.hashSync(password, SALT);
 
 export const comparePassword = async (password: string, passwordHash: string): Promise<boolean> =>
   bcrypt.compare(password, passwordHash);
+
+export const createSessionToken = async (data: JWTToken) =>
+  jwt.sign(data, SECRET!, { expiresIn: TOKEN_EXPIRE_TIME });
