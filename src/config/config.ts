@@ -22,6 +22,8 @@ export interface ProcessEnv {
   DB_PASSWORD: string;
   DB_NAME: string;
   SECRET: string;
+  SALT: number;
+  TOKEN_EXPIRE_TIME: number;
 }
 
 declare const process: {
@@ -40,6 +42,8 @@ export const {
   DB_PASSWORD,
   DB_NAME,
   SECRET,
+  SALT,
+  TOKEN_EXPIRE_TIME,
 } = process.env;
 
 export const AUTH_MODE = process.env.AUTH_MODE === 'true';
