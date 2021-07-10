@@ -2,7 +2,7 @@ import {createLogger, transports, format} from 'winston';
 
 const {colorize, cli, json, combine} = format;
 
-const logger = createLogger({
+export const logger = createLogger({
   level: 'silly',
   transports: [
     new transports.Console({

@@ -7,7 +7,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import Board from './board.entity';
-import User from './user.entity';
+import { User } from './user.entity';
 
 @Entity({ name: 'task' })
 export class Task implements ITask {

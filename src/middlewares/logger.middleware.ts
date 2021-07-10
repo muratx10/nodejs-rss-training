@@ -1,28 +1,24 @@
-import { Request, Response, NextFunction } from "express";
-import { finished } from "stream";
-import { log } from "../utils/logger";
+import { Request, Response, NextFunction } from 'express';
+import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
 
-export const loggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const {
-    body,
-    method,
-    params,
-    query,
-    url,
-  } = req;
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+  private logger = new Logger('HTTP');
 
-  next();
+  use(request: Request, response: Response, next: NextFunction): void {
+    const { method, originalUrl } = request;
 
-  finished(res, () => {
-    const {statusCode} = res;
+    response.on('finish', () => {
+      const { statusCode } = response;
+      const contentLength = response.get('content-length');
 
-    log(`${method}: ${url} ${statusCode}`, {
-        body,
-        method,
-        params,
-        query,
-        statusCode,
-        url,
-      });
-  });
-};
+      this.logger.log(
+        `${method} ${originalUrl} ${statusCode} ${contentLength}`,
+      );
+
+      this.logger.log(request.body);
+    });
+
+    next();
+  }
+}

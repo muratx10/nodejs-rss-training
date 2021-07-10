@@ -13,4 +13,4 @@ import { BoardService } from "./board.service";
   controllers: [BoardController],
   providers: [BoardService],
 })
-export class BoardsModule {}
+export class BoardModule {}

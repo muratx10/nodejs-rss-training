@@ -1,7 +1,7 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import * as bcrypt from 'bcryptjs';
-import { SALT } from '../config/config';
-import { IUser } from '../interfaces/interfaces';
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import { SALT } from 'config/config';
+import * as bcrypt from 'bcrypt';
+import { IUser } from 'interfaces/interfaces';
 
 @Entity({ name: 'user' })
 export class User implements IUser {
@@ -18,8 +18,9 @@ export class User implements IUser {
   passwordHash!: string;
 
   @BeforeInsert()
-  async hashPassword(): Promise<void> {
-    await bcrypt.hash(this.passwordHash, SALT).then((hash) => {
+  async encryptPassword(): Promise<void> {
+
+    await bcrypt.hash(this.passwordHash, SALT).then((hash: string) => {
       this.passwordHash = hash;
     });
   }
