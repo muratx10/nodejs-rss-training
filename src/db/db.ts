@@ -1,6 +1,6 @@
 import config from 'config/orm.config';
 import { getConnection, createConnection, Connection } from 'typeorm';
-import * as usersService from '../resources/users/user.service';
+import * as usersService from '../modules/users/user.service';
 import User from '../entities/user.entity';
 /* eslint-disable no-console */
 

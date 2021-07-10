@@ -5,10 +5,10 @@ import YAML from "yamljs";
 import cors from 'cors';
 import 'reflect-metadata';
 
-import loginRouter from "resources/auth/auth.router";
-import boardRouter from "./resources/boards/board.router";
-import taskRouter from "./resources/tasks/task.router";
-import userRouter from "./resources/users/user.router";
+import loginRouter from "modules/auth/auth.router";
+import boardRouter from "./modules/boards/board.router";
+import taskRouter from "./modules/tasks/task.router";
+import userRouter from "./modules/users/user.router";
 
 import { loggerMiddleware } from "./middlewares/logger.middleware";
 import { errHandlerMiddleware } from "./middlewares/errHandler.middleware";

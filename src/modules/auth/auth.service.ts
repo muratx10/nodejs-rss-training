@@ -1,4 +1,4 @@
-import * as usersService from "resources/users/user.service";
+import * as usersService from "modules/users/user.service";
 import bcrypt from "bcryptjs";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import { ErrorCode, IUser, JWTToken } from "../../interfaces/interfaces";

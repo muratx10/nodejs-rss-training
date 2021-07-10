@@ -1,58 +1,42 @@
-import { v4 as uuid } from "uuid";
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import Board from "entities/board.entity";
-import User from "entities/user.entity";
-import { ITask } from "../interfaces/interfaces";
-import BoardColumn from "./column.entity";
+import { ITask } from 'interfaces/interfaces';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import Board from './board.entity';
+import User from './user.entity';
 
-@Entity({name: 'Task'})
-class Task implements ITask{
+@Entity({ name: 'task' })
+export class Task implements ITask {
   @PrimaryGeneratedColumn('uuid')
-  public id: string
+  id!: string;
 
-  @Column('varchar', { length: 255})
-  public title: string
+  @Column('varchar', { length: 255 })
+  title!: string;
 
-  @Column('integer', {})
-  public order: number
+  @Column('integer')
+  order!: number;
 
-  @Column('varchar',{length: 255})
-  public description: string
+  @Column('varchar', { length: 200 })
+  description!: string;
 
-  @Column({nullable: true})
-  public userId: string | null
+  @ManyToOne(() => User, (user) => user.id, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'userId' })
+  userId: string | null = null;
 
-  @Column('varchar', {length: 255})
-  public boardId: string
+  @ManyToOne(() => Board, (board) => board.id, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'boardId' })
+  boardId!: string;
 
-  @Column('varchar', {nullable: true})
-  public columnId: string | null
-
-  @ManyToOne(() => User, { onDelete: 'SET NULL' })
-  user!: User;
-
-  @ManyToOne(() => Board, { onDelete: 'CASCADE' })
-  board!: Board;
-
-  @ManyToOne(() => BoardColumn, { onDelete: 'SET NULL'})
-  column!: BoardColumn
-
-  constructor(boardId: string, {
-    columnId = null,
-    description = '',
-    id = uuid(),
-    order = 0,
-    title = '',
-    userId = null,
-  }: Partial<ITask>) {
-    this.boardId = boardId;
-    this.columnId = columnId;
-    this.description = description || '';
-    this.id = id || uuid();
-    this.order = order || 0;
-    this.title = title || '';
-    this.userId = userId;
-  }
+  @Column('uuid', { nullable: true })
+  columnId!: string;
 }
-
-export default Task;
