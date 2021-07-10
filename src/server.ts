@@ -1,14 +1,20 @@
+/* eslint-disable no-console */
 import app from "app";
 import { PORT } from "config/config";
-import { createConnection } from "typeorm";
+import { StatusCodes } from "http-status-codes";
+import { initRootUser, tryDBConnect } from "./db/db";
 
-createConnection()
-  .then(() => {
+tryDBConnect(async () => {
+  try {
     app.listen(PORT, () =>
       process.stdout.write(`App is running on http://localhost:${PORT}`)
     );
-  })
-  .catch((e) => {
-    process.stderr.write('Failed to connect DB', e.message);
-    process.exit(1);
-  });
+    await initRootUser();
+  } catch (e) {
+    if (e.statusCode ===  StatusCodes.CONFLICT) {
+      console.error('User already exists.');
+    } else {
+      console.error(e);
+    }
+  }
+});

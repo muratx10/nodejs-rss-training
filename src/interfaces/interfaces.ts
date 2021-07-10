@@ -24,7 +24,7 @@ export interface IUser {
   id: string,
   name: string,
   login: string,
-  password: string
+  passwordHash: string
 }
 
 export interface IUserResponse {
@@ -32,3 +32,9 @@ export interface IUserResponse {
   name: string,
   login: string,
 }
+
+export type JWTToken = {
+  userId: string;
+  login: string;
+}
+export type ErrorCode = "BAD_CREDENTIALS" | "USER_NOT_FOUND"

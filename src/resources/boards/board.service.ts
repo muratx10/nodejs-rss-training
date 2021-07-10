@@ -1,4 +1,4 @@
-import { IBoard } from "../../interfaces/interfeces";
+import { IBoard } from "../../interfaces/interfaces";
 import * as DB from './board.repository';
 
 export const getAll = async (): Promise<IBoard[]> => DB.getAll();

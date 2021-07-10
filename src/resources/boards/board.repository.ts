@@ -1,5 +1,5 @@
 import { getConnection } from "typeorm";
-import { IBoard } from "../../interfaces/interfeces";
+import { IBoard } from "../../interfaces/interfaces";
 import Board from "../../entities/board.entity";
 
 export const getAll = async (): Promise<Array<IBoard>> => getConnection().getRepository(Board).find();

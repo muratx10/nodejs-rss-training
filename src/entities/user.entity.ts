@@ -1,20 +1,31 @@
 import { v4 as uuid } from "uuid";
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { IUser, IUserResponse } from "../interfaces/interfeces";
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import bcrypt from 'bcryptjs';
+import { SALT } from "config/config";
+import { IUser, IUserResponse } from "../interfaces/interfaces";
+// eslint-disable-next-line import/no-cycle
+import { encodePassword } from "../resources/auth/auth.service";
 
-@Entity()
+@Entity({name: 'User'})
 class User implements IUser {
   @PrimaryGeneratedColumn('uuid')
   public login: string;
 
-  @Column({length: 255})
+  @Column('varchar', {length: 255})
   public id: string;
 
-  @Column({length: 255})
+  @Column('varchar', {length: 255})
   public name: string;
 
-  @Column({length: 255})
-  public password: string;
+  @Column('varchar', {length: 255})
+  public passwordHash: string;
+
+  @BeforeInsert()
+  async hashPassword(): Promise<void> {
+    await bcrypt.hash(this.passwordHash, SALT).then(hash => {
+      this.passwordHash = hash;
+    });
+  }
 
   constructor({
     id = uuid(),
@@ -25,7 +36,7 @@ class User implements IUser {
     this.id = id;
     this.login = login;
     this.name = name;
-    this.password = password;
+    this.passwordHash = encodePassword(password);
   }
 
   static toResponse(user: IUser): IUserResponse {

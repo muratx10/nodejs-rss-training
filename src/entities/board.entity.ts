@@ -1,15 +1,20 @@
 import { v4 as uuid } from "uuid";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from "typeorm";
 // eslint-disable-next-line import/no-cycle
 import BoardColumn from "./column.entity";
-import { IBoard, IColumn } from "../interfaces/interfeces";
+import { IBoard, IColumn } from "../interfaces/interfaces";
 
-@Entity()
+@Entity({name: 'Board'})
 class Board implements IBoard {
   @PrimaryGeneratedColumn("uuid")
   public id: string;
 
-  @Column({ length: 255 })
+  @Column('varchar', { length: 255 })
   public title: string;
 
   @OneToMany(

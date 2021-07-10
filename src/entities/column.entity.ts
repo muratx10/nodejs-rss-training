@@ -2,14 +2,14 @@ import { v4 as uuid } from "uuid";
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 // eslint-disable-next-line import/no-cycle
 import Board from "./board.entity";
-import { IBoard, IColumn } from "../interfaces/interfeces";
+import { IBoard, IColumn } from "../interfaces/interfaces";
 
-@Entity()
+@Entity({name: 'Column'})
 class BoardColumn implements IColumn {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ length: 255 })
+  @Column('varchar', { length: 255 })
   title: string;
 
   @Column("integer")
@@ -18,7 +18,7 @@ class BoardColumn implements IColumn {
   @ManyToOne(() => Board, { onDelete: "CASCADE" })
   board!: IBoard;
 
-  @Column()
+  @Column('varchar', {length: 255})
   boardId: string = "";
 
   constructor({

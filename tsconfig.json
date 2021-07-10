@@ -21,10 +21,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
   },
+  "compileOnSave": true,
   "exclude": [
     "node_modules/"
   ],
   "include": [
-    "src"
+    "src/**/*.ts"
   ]
 }

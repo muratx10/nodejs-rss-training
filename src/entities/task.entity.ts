@@ -2,30 +2,30 @@ import { v4 as uuid } from "uuid";
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import Board from "entities/board.entity";
 import User from "entities/user.entity";
-import { ITask } from "../interfaces/interfeces";
+import { ITask } from "../interfaces/interfaces";
 import BoardColumn from "./column.entity";
 
-@Entity()
+@Entity({name: 'Task'})
 class Task implements ITask{
   @PrimaryGeneratedColumn('uuid')
   public id: string
 
-  @Column({ length: 255})
+  @Column('varchar', { length: 255})
   public title: string
 
-  @Column('integer')
+  @Column('integer', {})
   public order: number
 
-  @Column({length: 255})
+  @Column('varchar',{length: 255})
   public description: string
 
   @Column({nullable: true})
   public userId: string | null
 
-  @Column()
+  @Column('varchar', {length: 255})
   public boardId: string
 
-  @Column({nullable: true})
+  @Column('varchar', {nullable: true})
   public columnId: string | null
 
   @ManyToOne(() => User, { onDelete: 'SET NULL' })

@@ -1,5 +1,5 @@
 import { getConnection  } from "typeorm";
-import { ITask } from "../../interfaces/interfeces";
+import { ITask } from "../../interfaces/interfaces";
 import Task from "../../entities/task.entity";
 
 export const getAll = async (boardId: string): Promise<ITask[]> => getConnection().getRepository(Task).find({ where: { boardId } });

@@ -5,6 +5,7 @@ import YAML from "yamljs";
 import cors from 'cors';
 import 'reflect-metadata';
 
+import loginRouter from "resources/auth/auth.router";
 import boardRouter from "./resources/boards/board.router";
 import taskRouter from "./resources/tasks/task.router";
 import userRouter from "./resources/users/user.router";
@@ -14,6 +15,7 @@ import { errHandlerMiddleware } from "./middlewares/errHandler.middleware";
 import { errorLog } from "./utils/logger";
 
 import { routes } from "./constants";
+import sessionMiddleware from "./middlewares/session.middleware";
 
 const app = express();
 
@@ -30,6 +32,8 @@ app
       : next()
   )
   .use(loggerMiddleware)
+  .use(routes.login, loginRouter)
+  .use(sessionMiddleware)
   .use(routes.users, userRouter)
   .use(routes.boards, boardRouter)
   .use(routes.tasks, taskRouter)
